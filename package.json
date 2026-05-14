@@ -1,0 +1,26 @@
+{
+  "name": "haven_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' --files src/server.ts",
+    "lint": "eslint 'src/**/*.ts'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "@telegraf/types": "^9.2.1",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.13.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
