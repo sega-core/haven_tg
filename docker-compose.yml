@@ -1,0 +1,16 @@
+services:
+  backend:
+    build: ./haven_tg
+    container_name: haven_tg
+    restart: always
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - haven_network
+
+networks:
+  haven_network:
