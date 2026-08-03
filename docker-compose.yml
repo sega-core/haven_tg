@@ -1,6 +1,6 @@
 services:
   backend:
-    build: ./haven_tg
+    build: .
     container_name: haven_tg
     restart: always
     ports:

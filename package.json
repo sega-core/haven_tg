@@ -1,6 +1,6 @@
 {
-  "name": "haven_backend",
-  "version": "1.0.1",
+  "name": "haven_tg",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,12 +12,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
     "@telegraf/types": "^9.2.1",
+        "@types/cors": "^2.8.19",
+
     "@types/express": "^5.0.1",
     "@types/node": "^22.13.11",
     "ts-node": "^10.9.2",
