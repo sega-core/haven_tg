@@ -18,21 +18,25 @@ app.use((req, res, next) => {
 });
 
 // ============ Health Check ============
-app.get('/health', (req, res) => {
+app.get("/health", (req, res) => {
   res.json({
-    status: 'ok',
-    service: 'haven-telegram-bot',
+    status: "ok",
+    service: "haven-telegram-bot",
     timestamp: new Date().toISOString(),
   });
 });
 
 // ============ Проверка авторизации ============
-const checkAuth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const authHeader = req.headers['authorization'];
+const checkAuth = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const authHeader = req.headers["authorization"];
   if (authHeader !== `Bearer ${PROXY_SECRET}`) {
     return res.status(401).json({
       success: false,
-      error: 'Unauthorized',
+      error: "Unauthorized",
     });
   }
   next();
@@ -41,14 +45,14 @@ const checkAuth = (req: express.Request, res: express.Response, next: express.Ne
 // ============ Telegram API ============
 
 // Отправка одного сообщения
-app.post('/api/send-message', checkAuth, async (req, res) => {
+app.post("/api/send-message", checkAuth, async (req, res) => {
   try {
-    const { chatId, text, parse_mode = 'HTML' } = req.body;
+    const { chatId, text, parse_mode = "HTML" } = req.body;
 
     if (!chatId || !text) {
       return res.status(400).json({
         success: false,
-        error: 'chatId и text обязательны',
+        error: "chatId и text обязательны",
       });
     }
 
@@ -58,9 +62,9 @@ app.post('/api/send-message', checkAuth, async (req, res) => {
     const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         chat_id: chatId,
@@ -78,18 +82,17 @@ app.post('/api/send-message', checkAuth, async (req, res) => {
       console.error(`❌ Telegram API error: ${data.description}`);
       res.status(500).json({
         success: false,
-        error: data.description || 'Unknown error',
+        error: data.description || "Unknown error",
       });
     }
   } catch (error: any) {
-    console.error('❌ Ошибка:', error);
+    console.error("❌ Ошибка:", error);
     res.status(500).json({
       success: false,
       error: error.message,
     });
   }
 });
-
 
 (async () => {
   try {
@@ -98,15 +101,16 @@ app.post('/api/send-message', checkAuth, async (req, res) => {
     console.log("🤖 Telegram бот запущен");
 
     // Запускаем HTTP сервер
-    app.listen(PORT, () => {
-      console.log(`🚀 HTTP сервер запущен на порту ${PORT}`);
-      console.log(`📌 Health: http://localhost:${PORT}/health`);
-      console.log(`📌 Send: POST http://localhost:${PORT}/api/send-message`);
-      console.log(`📌 Bulk: POST http://localhost:${PORT}/api/send-bulk`);
-      console.log(`📌 Bot Info: GET http://localhost:${PORT}/api/bot-info`);
-    });
   } catch (error) {
     console.error("❌ Ошибка при запуске:", error);
     process.exit(1);
   }
 })();
+
+app.listen(PORT, () => {
+  console.log(`🚀 HTTP сервер запущен на порту ${PORT}`);
+  console.log(`📌 Health: http://localhost:${PORT}/health`);
+  console.log(`📌 Send: POST http://localhost:${PORT}/api/send-message`);
+  console.log(`📌 Bulk: POST http://localhost:${PORT}/api/send-bulk`);
+  console.log(`📌 Bot Info: GET http://localhost:${PORT}/api/bot-info`);
+});
