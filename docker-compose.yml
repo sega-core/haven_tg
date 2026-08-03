@@ -9,6 +9,8 @@ services:
       - .env
     networks:
       - haven_network
+    command: ["node", "dist/server.js"]
 
 networks:
   haven_network:
+    driver: bridge
