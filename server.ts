@@ -75,18 +75,21 @@ app.post("/api/send-message", checkAuth, async (req, res) => {
 
     const data = await response.json();
 
+    const now = new Date();
+    const timestamp = now.toISOString().replace('T', ' ').slice(0, 19);
+
     if (data.ok) {
-      console.log(`✅ Сообщение отправлено ${chatId}`);
+      console.log(`[${timestamp}] ✅ Сообщение отправлено ${chatId}`);
       res.json({ success: true });
     } else {
-      console.error(`❌ Telegram API error: ${data.description}`);
+      console.error(`[${timestamp}] ❌ Telegram API error: ${data.description}`);
       res.status(500).json({
         success: false,
         error: data.description || "Unknown error",
       });
     }
   } catch (error: any) {
-    console.error("❌ Ошибка:", error);
+    console.error(`[${new Date()}] ❌ Ошибка:`, error);
     res.status(500).json({
       success: false,
       error: error.message,
